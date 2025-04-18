@@ -6,6 +6,7 @@ import com.example.entity.Account;
 import com.example.repository.MessageRepository;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,19 @@ public class SocialMediaController {
             return ResponseEntity.status(200).body(account);
         }
         else{
-            return ResponseEntity.status(400).body("");
+            return ResponseEntity.status(409).body("");//add error 400
+        }
+    }
+
+    //#2 login 
+    @PostMapping("/login")
+    public ResponseEntity getAccount(@RequestBody Account account){
+        Account getAccount = accountService.getAccount(account);
+        if (getAccount != null){
+            return ResponseEntity.status(200).body(account);
+        }
+        else{
+            return ResponseEntity.status(401).body("");
         }
     }
 
@@ -81,21 +94,28 @@ public class SocialMediaController {
     }
 
     //#6 delete message by id
-    @DeleteMapping("/messages/{id}")
-    public ResponseEntity deleteMessageById(@PathVariable Integer id){
-        Message message = messageService.deleteMessageById(id); 
-        return ResponseEntity.status(200).body(message);
+    @DeleteMapping("/messages/{messageId}")
+    public ResponseEntity<String> deleteMessageById(@PathVariable Integer messageId){
+        Message deletedMessage = messageService.deleteMessageById(messageId); 
+        if (deletedMessage != null){
+            return ResponseEntity.status(200).body("1"); //ResponseEntity.status(200).body(message);
+        }
+        else{
+            return ResponseEntity.status(200).body("");
+            //return 0; //ResponseEntity.status(400).body("");
+        }
     }
 
     //#7 update message by id
     @PatchMapping("/messages/{id}")
-    public ResponseEntity updateMessageById(@PathVariable Integer id, @RequestBody Message message){
+    public ResponseEntity<String> updateMessageById(@PathVariable Integer id, @RequestBody Message message){
         Message updatedMessage = messageService.updateMessageById(id, message); 
         if (updatedMessage != null){
-            return ResponseEntity.status(200).body(message);
+            return ResponseEntity.status(200).body("1"); //ResponseEntity.status(200).body(message);
         }
         else{
             return ResponseEntity.status(400).body("");
+            //return 0; //ResponseEntity.status(400).body("");
         }
     }
 

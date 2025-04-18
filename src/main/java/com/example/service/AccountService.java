@@ -29,6 +29,14 @@ public class AccountService {
         return accountRepository.findByUsername(account.getUsername());
     }
 
+    public Account getAccount(Account account){
+        Optional<Account> optionalAccount = Optional.of(accountRepository.findByUsername(account.getUsername()));
+        if (optionalAccount.isPresent() || account.getUsername() == "" || account.getPassword().length() < 4 || optionalAccount.get().getPassword() != account.getPassword()){
+            return null;
+        }
+
+        return account; //accountRepository.save(account);
+    }
     // public Account getAccountById(Integer id){ //broke?
     //     Optional<Account> optionalAccount = accountRepository.findById(id);
     //     if (optionalAccount.isPresent()){

@@ -55,13 +55,15 @@ public class MessageService {
         message.setMessageId(id);
         Integer user = message.getPostedBy();
         //the following condition checks if the message is null, if the length is between 0 and 255, and if user id exists. 
-        if(message!=null && message.getMessageText().length() != 0 && message.getMessageText().length() < 255 && messageRepository.findById(id)!=null ){ //add check for final condition later.
+        if(message!=null && message.getMessageText().length() != 0 && message.getMessageText().length() < 255 && messageRepository.findById(id).isPresent() ){ //add check for final condition later.
             messageRepository.save(message);
             return message;
         }else{
             return null;
         }
     }
+
+
 
     public List<Message> getMessagesByUser(Integer postedBy){        
         List<Message> Messages = messageRepository.findMessagesByPostedBy(postedBy);
