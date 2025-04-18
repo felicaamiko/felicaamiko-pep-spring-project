@@ -19,17 +19,51 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
+    public Message createMessage(Message message){
+        Integer user = message.getPostedBy();
+        //the following condition checks if the message is null, if the length is between 0 and 255, and if user id exists. 
+        if(message!=null && message.getMessageText().length() != 0 && message.getMessageText().length() < 255 && true ){ //add check for final condition later.
+            messageRepository.save(message);
+            return message;
+        }else{
+            return null;
+        }
+    }
+
     public List<Message> getAllMessages(){
         return messageRepository.findAll();
     }
 
     public Message getMessageById(Integer id){
-        
         Optional<Message> optionalMessage = messageRepository.findById(id);
         if (optionalMessage.isPresent()){
             return optionalMessage.get();
         }
-        System.out.println("it's nulllllllllllllllllllllllllllll");
         return null;
+    }
+
+    public Message deleteMessageById(Integer id){     
+        Message message = getMessageById(id);
+        if (message != null){
+            messageRepository.deleteById(id);
+        }
+        return message;
+    }
+    
+    public Message updateMessageById(Integer id, Message message){
+        message.setMessageId(id);
+        Integer user = message.getPostedBy();
+        //the following condition checks if the message is null, if the length is between 0 and 255, and if user id exists. 
+        if(message!=null && message.getMessageText().length() != 0 && message.getMessageText().length() < 255 && messageRepository.findById(id)!=null ){ //add check for final condition later.
+            messageRepository.save(message);
+            return message;
+        }else{
+            return null;
+        }
+    }
+
+    public List<Message> getMessagesByUser(Integer postedBy){        
+        List<Message> Messages = messageRepository.findMessagesByPostedBy(postedBy);
+        return Messages;
     }
 }
