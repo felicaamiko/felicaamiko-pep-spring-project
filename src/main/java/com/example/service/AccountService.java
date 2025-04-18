@@ -31,13 +31,27 @@ public class AccountService {
     }
 
     public Account getAccount(Account account){
-        //Optional<Account> optionalAccount = Optional.of(accountRepository.findByUsername(account.getUsername()));
-        boolean isDuplicate = (accountRepository.findByUsername(account.getUsername()) != null);
-        if (!isDuplicate || account.getUsername() == "" || account.getPassword().length() < 4 || accountRepository.findByUsername(account.getUsername()).getPassword() != account.getPassword()){
+        String username = account.getUsername();
+        String password = account.getPassword();
+
+
+
+        Account foundAccount = accountRepository.findByUsername(account.getUsername());
+        boolean isNotFound = (foundAccount == null);
+
+        // if (foundAccount!=null){
+        //     String foundPass = foundAccount.getPassword();
+        //     if (password.equals)
+        // }
+
+        // return null;
+
+        if (isNotFound || account.getUsername() == "" || account.getPassword().length() < 4 || !(foundAccount.getPassword().equals(account.getPassword()))){
+            System.out.println("hi");
             return null;
         }
 
-        return account; //accountRepository.save(account);
+        return foundAccount; //accountRepository.save(account);
     }
     // public Account getAccountById(Integer id){ //broke?
     //     Optional<Account> optionalAccount = accountRepository.findById(id);

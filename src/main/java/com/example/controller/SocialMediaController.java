@@ -59,7 +59,7 @@ public class SocialMediaController {
     public ResponseEntity getAccount(@RequestBody Account account){
         Account getAccount = accountService.getAccount(account);
         if (getAccount != null){
-            return ResponseEntity.status(200).body(account);
+            return ResponseEntity.status(200).body(getAccount);
         }
         else{
             return ResponseEntity.status(401).body("");
