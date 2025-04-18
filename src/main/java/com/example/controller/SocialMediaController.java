@@ -47,7 +47,7 @@ public class SocialMediaController {
     public ResponseEntity createAccount(@RequestBody Account account){
         Account createdAccount = accountService.createAccount(account);
         if (createdAccount != null){
-            return ResponseEntity.status(200).body(account);
+            return ResponseEntity.status(200).body(createdAccount);
         }
         else{
             return ResponseEntity.status(409).body("");//add error 400

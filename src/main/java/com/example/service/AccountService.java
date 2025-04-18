@@ -21,8 +21,9 @@ public class AccountService {
     }
 
     public Account createAccount(Account account){
-        Optional<Account> optionalAccount = accountRepository.findById(account.getAccountId());
-        if (optionalAccount.isPresent() || account.getUsername() == "" || account.getPassword().length() < 4){
+        //Optional<Account> optionalAccount = Optional.of(accountRepository.findByUsername(account.getUsername()));//check if the username exists
+        boolean isDuplicate = (accountRepository.findByUsername(account.getUsername()) != null);
+        if (isDuplicate || account.getUsername() == "" || account.getPassword().length() < 4){
             return null;
         }
         accountRepository.save(account);
@@ -30,8 +31,9 @@ public class AccountService {
     }
 
     public Account getAccount(Account account){
-        Optional<Account> optionalAccount = Optional.of(accountRepository.findByUsername(account.getUsername()));
-        if (optionalAccount.isPresent() || account.getUsername() == "" || account.getPassword().length() < 4 || optionalAccount.get().getPassword() != account.getPassword()){
+        //Optional<Account> optionalAccount = Optional.of(accountRepository.findByUsername(account.getUsername()));
+        boolean isDuplicate = (accountRepository.findByUsername(account.getUsername()) != null);
+        if (!isDuplicate || account.getUsername() == "" || account.getPassword().length() < 4 || accountRepository.findByUsername(account.getUsername()).getPassword() != account.getPassword()){
             return null;
         }
 
@@ -51,5 +53,4 @@ public class AccountService {
         }
         return false;
     }
-
 }
