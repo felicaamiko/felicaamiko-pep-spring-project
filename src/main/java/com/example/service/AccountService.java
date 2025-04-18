@@ -29,13 +29,19 @@ public class AccountService {
         return accountRepository.findByUsername(account.getUsername());
     }
 
-    public Account getAccountById(Integer id){
+    // public Account getAccountById(Integer id){ //broke?
+    //     Optional<Account> optionalAccount = accountRepository.findById(id);
+    //     if (optionalAccount.isPresent()){
+    //         return optionalAccount.get();
+    //     }
+    //     return null;
+    // }
+    public boolean isAccountInDb(Integer id){
         Optional<Account> optionalAccount = accountRepository.findById(id);
         if (optionalAccount.isPresent()){
-            return optionalAccount.get();
+            return true;
         }
-        return null;
+        return false;
     }
-
 
 }

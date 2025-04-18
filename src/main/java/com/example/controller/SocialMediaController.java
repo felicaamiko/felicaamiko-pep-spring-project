@@ -35,7 +35,7 @@ public class SocialMediaController {
     AccountService accountService;
     MessageService messageService;
 
-    //@Autowired
+    @Autowired // this line was commented out before. but uncommenting didn't change results of the test.
     public SocialMediaController(AccountService accountService, MessageService messageService){
         this.accountService = accountService;
         this.messageService = messageService;

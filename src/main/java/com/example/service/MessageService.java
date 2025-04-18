@@ -13,16 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Service //not transactional. 
 public class MessageService {
     MessageRepository messageRepository;
-
+    AccountService accountService;
     @Autowired
-    MessageService(MessageRepository messageRepository){
+    MessageService(MessageRepository messageRepository, AccountService accountService){
         this.messageRepository = messageRepository;
+        this.accountService = accountService;
     }
 
     public Message createMessage(Message message){
-        Integer user = message.getPostedBy();
+        //Integer user = message.getPostedBy();
         //the following condition checks if the message is null, if the length is between 0 and 255, and if user id exists. 
-        if(message!=null && message.getMessageText().length() != 0 && message.getMessageText().length() < 255 && true ){ //add check for final condition later.
+        if(message!=null && message.getMessageText()!=null && message.getMessageText().length() != 0 && message.getMessageText().length() < 255 && accountService.isAccountInDb(message.getPostedBy()) ){ //add check for final condition later.
             messageRepository.save(message);
             return message;
         }else{
